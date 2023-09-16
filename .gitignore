@@ -1,7 +1,7 @@
-/ToDo Client/package-lock.json
-/ToDo Server/package-lock.json
+ToDo_Client/package-lock.json
+ToDo_Server/package-lock.json
 
-/ToDo Client/node_modules
-/ToDo Server/node_modules
+ToDo_Client/node_modules
+ToDo_Server/node_modules
 
-/ToDo Server/.env
+ToDo_Server/.env
