@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 export default function Login(props) {
 
-    const url = "http://localhost:80"
+    const url = "https://todo-api-wqod.onrender.com"
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

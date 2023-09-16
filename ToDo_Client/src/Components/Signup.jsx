@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Signup() {
 
     const navigate = useNavigate();
-    const url = "http://localhost:80"
+    const url = "https://todo-api-wqod.onrender.com"
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");

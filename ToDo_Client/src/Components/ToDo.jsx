@@ -7,7 +7,7 @@ export default function ToDo(props) {
 
     const handleDeleteToDo = async()=>{
         // console.log(props.id);
-        const result = await fetch('http://localhost:80/api/todos/deleteTodo/'+props.id, {
+        const result = await fetch('https://todo-api-wqod.onrender.com/api/todos/deleteTodo/'+props.id, {
             method:"DELETE",
             headers:{
                 "Content-Type": "application/json",

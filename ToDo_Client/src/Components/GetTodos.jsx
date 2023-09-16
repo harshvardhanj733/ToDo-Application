@@ -4,7 +4,7 @@ import AddToDo from './AddToDo';
 
 export default function GetTodos(props) {
 
-  const url = 'http://localhost:80'
+  const url = 'https://todo-api-wqod.onrender.com'
 
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);

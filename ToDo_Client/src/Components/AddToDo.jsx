@@ -21,7 +21,7 @@ export default function AddToDo(props) {
     const onSubmitAdd = async(event)=>{
         event.preventDefault();
 
-        const result = await fetch('http://localhost:80/api/todos/newTodo', {
+        const result = await fetch('https://todo-api-wqod.onrender.com/api/todos/newTodo', {
             method: "POST",
             body:JSON.stringify({title, description, status}),
             headers:{
@@ -37,7 +37,7 @@ export default function AddToDo(props) {
     const onSubmitUpdate = async(event)=>{
         event.preventDefault();
 
-        const result = await fetch('http://localhost:80/api/todos/updateTodo/'+props.onSubmit,{
+        const result = await fetch('https://todo-api-wqod.onrender.com/api/todos/updateTodo/'+props.onSubmit,{
             method: "PUT",
             body:JSON.stringify({title, description, status}),
             headers:{
