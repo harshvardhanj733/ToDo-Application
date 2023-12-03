@@ -6,6 +6,8 @@ export default function AddToDo(props) {
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState(false);
 
+    const url = 'https://todo-api-wqod.onrender.com/'
+
     const onChangeTitle = (event)=>{
         setTitle(event.target.value);
     }
@@ -21,7 +23,7 @@ export default function AddToDo(props) {
     const onSubmitAdd = async(event)=>{
         event.preventDefault();
 
-        const result = await fetch('https://todo-api-wqod.onrender.com/api/todos/newTodo', {
+        const result = await fetch(url+'api/todos/newTodo', {
             method: "POST",
             body:JSON.stringify({title, description, status}),
             headers:{
@@ -37,7 +39,7 @@ export default function AddToDo(props) {
     const onSubmitUpdate = async(event)=>{
         event.preventDefault();
 
-        const result = await fetch('https://todo-api-wqod.onrender.com/api/todos/updateTodo/'+props.onSubmit,{
+        const result = await fetch(url+'api/todos/updateTodo/'+props.onSubmit,{
             method: "PUT",
             body:JSON.stringify({title, description, status}),
             headers:{
@@ -96,10 +98,8 @@ export default function AddToDo(props) {
                 </label>
                 <input
                     type="checkbox"
-                    // className="form-control"
                     name='status'
                     id="status"
-                    // checked
                     onChange={onChangeStatus}
                 />
             </div>

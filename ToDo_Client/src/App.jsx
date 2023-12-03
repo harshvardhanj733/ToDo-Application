@@ -9,21 +9,20 @@ import Login from './Components/Login'
 import GetTodos from './Components/GetTodos'
 
 function App() {
-
-  // const [token, setToken] = useState("");
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   return (
     <>
-      <header>
-        <Navbar/>
-      </header>
 
       <BrowserRouter>
+        <header>
+          <Navbar isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn}/>
+        </header>
 
           <Routes>
               <Route exact path='/' element={<Dashboard></Dashboard>}/>
               <Route exact path='/signup' element={<Signup></Signup>}/>
-              <Route exact path='/login' element={<Login></Login>}/>
+              <Route exact path='/login' element={<Login setIsSignedIn={setIsSignedIn}></Login>}/>
               <Route exact path='/todos/dashboard' element={<GetTodos></GetTodos>}/>
           </Routes>
 

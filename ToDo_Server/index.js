@@ -1,13 +1,10 @@
 const express = require('express');
 const db = require('./db');
 const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
 const Signup = require('./Schemas/Signup');
 const ToDos = require('./Schemas/ToDos');
-const { ObjectId } = require('mongodb');
 
 const port = 80;
 const key = process.env.KEY;
@@ -18,7 +15,6 @@ db();
 app.use(express.urlencoded({ extended: true })); //for MongoDB
 app.use(express.json());
 app.use(cors())
-app.use(cookieParser());
 
 
 app.post('/api/signup', async (req, res) => {
@@ -53,12 +49,12 @@ app.post('/api/login', async (req, res) => {
 
         let user = await Signup.findOne({ username });
         if (!user) {
-            return res.status(404).send({ message: "Incorrect username or password 1" });
+            return res.status(403).send({ message: "Incorrect username or password" });
         }
 
         let passCheck = await bcrypt.compare(password, user.password);
         if (!passCheck) {
-            return res.status(404).send({ message: "Incorrect username or password 2" });
+            return res.status(403).send({ message: "Incorrect username or password" });
         }
 
         const token = jwt.sign(username, key);
@@ -76,7 +72,6 @@ app.post('/api/login', async (req, res) => {
 const auth = async (req, res, next) => {
     try {
         const encryptedToken = req.header("Authorization").split(' ')[1];
-        // const encryptedToken = req.header("Authorization");
         // const encryptedToken = req.cookie('token');
         const username = jwt.verify(encryptedToken, key);
         if (!username) {
@@ -116,9 +111,6 @@ app.post('/api/todos/newTodo', auth, async (req, res) => {
 
         const data = new ToDos({ username, title, description, status });
         await data.save();
-
-        // const result = {title: data.title, description: data.description, status: data.status, _id: data._id};
-
         return res.status(200).send({data});
 
     } catch (err) {
@@ -128,8 +120,6 @@ app.post('/api/todos/newTodo', auth, async (req, res) => {
 
 app.delete('/api/todos/deleteTodo/:todo', auth, async (req, res) => {
     try {
-
-        // Attempt to find and delete the document
         const deletedToDo = await ToDos.findByIdAndDelete(req.params.todo);
 
         if (!deletedToDo) {
@@ -159,6 +149,19 @@ app.put('/api/todos/updateTodo/:todo', auth, async (req, res)=>{
 
         return res.status(500).json({error});
         
+    }
+})
+
+app.patch('/api/todos/statusTodo/:todo', auth, async (req, res) => {
+    try {
+        const statusToDo = await ToDos.findByIdAndUpdate(req.params.todo, { $set: { status: !req.body.status } }, {new: true});
+        if(!statusToDo){
+            return res.status(404).send({error: 'ToDo not found'});
+        }
+        return res.status(200).send({statusToDo});
+    } 
+    catch (error) {
+        return res.status(500).json({error});
     }
 })
 

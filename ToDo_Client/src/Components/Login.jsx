@@ -20,7 +20,7 @@ export default function Login(props) {
     const onSubmitButton = async (event)=>{
         event.preventDefault();
 
-        console.log({username, password});
+        // console.log({username, password});
 
         const result = await fetch(url+'/api/login', {
             method: "POST",
@@ -36,7 +36,7 @@ export default function Login(props) {
             console.log(data.token);
             // props.setToken(data.token);
             localStorage.setItem('token', data.token);
-
+            props.setIsSignedIn(true);
             navigate('/todos/dashboard')
         }
         else{

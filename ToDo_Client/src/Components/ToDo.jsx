@@ -4,10 +4,11 @@ import AddToDo from './AddToDo';
 export default function ToDo(props) {
 
     const [update, setUpdate] = useState(false);
+    const url = 'https://todo-api-wqod.onrender.com/';
 
     const handleDeleteToDo = async()=>{
         // console.log(props.id);
-        const result = await fetch('https://todo-api-wqod.onrender.com/api/todos/deleteTodo/'+props.id, {
+        const result = await fetch(url+'api/todos/deleteTodo/'+props.id, {
             method:"DELETE",
             headers:{
                 "Content-Type": "application/json",
@@ -35,6 +36,36 @@ export default function ToDo(props) {
         (!update)?setUpdate(true):setUpdate(false);
     }
 
+    const handleEditStatus = async () => {
+        const result = await fetch('api/todos/statusTodo/'+props.id, {
+            method:"PATCH",
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                status: props.status
+            })
+        })
+
+        const data = await result.json();
+        if(!data.statusToDo){
+            alert(data.error);
+        }
+        else{
+            let arr = []
+            props.data.forEach(element => {
+                if(element._id !== data.statusToDo._id){
+                    arr.push(element);
+                }
+                else{
+                    arr.push(data.statusToDo)
+                }
+            });
+            props.setData(arr);
+        }
+    }
+
     return (
         <div>
             <div className="card">
@@ -45,9 +76,7 @@ export default function ToDo(props) {
                         {props.status&&"Done!"}
                         {!props.status&&"Yet to Do!"}
                     </p>
-                    <a href="#" className="btn btn-primary">
-                        {props.status}
-                    </a>
+                    <button onClick={handleEditStatus}>{props.status?"Mark Undone":"Mark Done"}</button>
                 </div>
                     <button type="submit" className='success' onClick={handleDeleteToDo}>Delete ToDo</button>
                     <button type="submit" className='success' onClick={handleEditToDo}>Edit ToDo</button>

@@ -31,7 +31,6 @@ export default function GetTodos(props) {
   }
 
   useEffect(()=>{
-    console.log("UseEffect");
     getData();
   }, [])
 

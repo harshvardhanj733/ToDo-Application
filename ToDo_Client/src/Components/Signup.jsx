@@ -26,9 +26,9 @@ export default function Signup() {
 
     const onSubmitButton = async(event)=>{
         event.preventDefault();
-        console.log({
-            username, email, password, confirmPassword
-        })
+        // console.log({
+        //     username, email, password, confirmPassword
+        // })
         const result = await fetch(url+'/api/signup', {
             method: "POST",
             body:JSON.stringify({

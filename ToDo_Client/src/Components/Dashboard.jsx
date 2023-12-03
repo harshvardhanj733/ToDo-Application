@@ -2,8 +2,13 @@ import React from 'react'
 
 export default function Dashboard() {
   return (
+    <>
     <div>
-        Dashboard
+        Welcome to the ToDo Application!
     </div>
+    <div>
+       Please Login or Signup to Continue!
+    </div>
+    </>
   )
 }
